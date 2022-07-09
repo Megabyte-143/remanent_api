@@ -63,14 +63,13 @@ class nft_collectionSchema {
             marketplaces: {
                 type: [marketplaceSchema],
             },
-            // ! DATA NOT FOUND
+            // ! Need to be revise
             royalty: {
                 type: nft_collection_royaltySchema,
             },
-            // ! TODO
+            // ! Need to be revise
             assets: {
                 type: [nft_assetSchema],
-                id: nft_assetSchema.id,
                 name: nft_assetSchema.name,
                 token_id: nft_assetSchema.token_id,
             },

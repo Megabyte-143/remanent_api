@@ -73,20 +73,42 @@ app.get("/v1/web3/nfts/:chain_id/:ownerAdd", async (req, res) => {
 
 app.get('/v1/web3/nfts/transactions/:chain_id', async (req, res) => {
     const chain = req.params.chain_id == 137 ? 'polygon' : 'ethereum';
+    
 });
+
+// async function getNftsFromCollection(collectionId) {
+//     const url = `{baseUrl}collection/${collectionId}`;
+//     let nft_assets = new nft_assetSchema();
+//     let responseData = [];
+
+//     fetch(url, options)
+//         .then(data => data.json())
+//         .then(data => {
+//             data.nfts.forEach(nft => {
+//                 nft_assets.data.properties = {
+//                     name: nft.name,
+//                     token_id: nft.token_id,
+//                 };
+//                 responseData.push(nft_assets.data.properties);
+//             });
+//             return responseData;
+//         }).catch(err => console.error('error:' + err));
+// }
 
 app.get('/v1/web3/nft_collections/:chain_id/:contract_address', async (req, res) => {
     const chain = req.params.chain_id == 137 ? 'polygon' : 'ethereum';
     const url = `${baseUrl}${chain}/${req.params.contract_address}`;
 
-    let nft_assets = new nft_collectionSchema();
+    let nft_collection = new nft_collectionSchema();
     let responseData = [];
 
     fetch(url, options)
         .then(data => data.json())
         .then(data => {
             data.nfts.forEach(nft => {
-                nft_assets.data.properties = {
+                // let collection_id = nft_collection.data.properties.collection.collection_id;
+
+                nft_collection.data.properties = {
                     chain: chain,
                     minted_at: nft.created_date,
                     contract: {
@@ -114,7 +136,9 @@ app.get('/v1/web3/nft_collections/:chain_id/:contract_address', async (req, res)
                         })
                     }))),
                 };
+                responseData.push(nft_collection.data.properties);
             });
+            res.send(responseData);
         })
         .catch(err => console.error('error:' + err));
 });
