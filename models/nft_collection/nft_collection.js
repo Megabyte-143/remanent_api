@@ -19,6 +19,10 @@ class nft_collectionSchema {
                 type: 'string',
                 format: 'date-time'
             },
+            // ! Need to be revise
+            token_id:{
+                type: 'string'
+            },
             //! SYMBOL, SUPPLY, MINTS
             contract: {
                 type: nft_collection_contractSchema

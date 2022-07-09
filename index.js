@@ -73,7 +73,27 @@ app.get("/v1/web3/nfts/:chain_id/:ownerAdd", async (req, res) => {
 
 app.get('/v1/web3/nfts/transactions/:chain_id', async (req, res) => {
     const chain = req.params.chain_id == 137 ? 'polygon' : 'ethereum';
-    
+
+    let url = 'https://api.nftport.xyz/v0/transactions/nfts/contract_address';
+
+let options = {
+  method: 'GET',
+  qs: {chain: 'ethereum'},
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: '364f1aa2-aafa-4fca-8f92-f2a775aead89'
+  }
+};
+
+fetch(url, options)
+  .then(res => res.json())
+  .then(json => console.log(json))
+  .catch(err => console.error('error:' + err));
+
+
+
+
+
 });
 
 // async function getNftsFromCollection(collectionId) {
@@ -117,6 +137,7 @@ app.get('/v1/web3/nft_collections/:chain_id/:contract_address', async (req, res)
                     },
                     name: nft.name,
                     description: nft.description,
+                    token_id: nft.token_id,
                     logo_url: nft.collection.image_url,
                     banner_url: nft.collection.banner_image_url,
                     owners: JSON.parse(JSON.stringify(nft.owners.map(owner => {
