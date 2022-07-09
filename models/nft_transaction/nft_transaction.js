@@ -6,6 +6,7 @@ class nft_transactionSchema {
 
         type: 'object',
         properties: {
+            // * Remanent ID
             id: {
                 type: 'string',
                 format: 'uuid',
@@ -13,9 +14,11 @@ class nft_transactionSchema {
             token_id: {
                 type: 'string',
             },
+            // * Remanent ID
             nft_asset_id: {
                 type: 'string',
             },
+            // ! TYPE, SYMBOL, Supply, Mints
             contract: {
                 type: nft_collection_contractSchema
             },
@@ -28,24 +31,31 @@ class nft_transactionSchema {
             receivers: {
                 type: [String],
             },
+            // ! DATA NOT FOUND
             marketplace: {
                 type: 'string',
             },
+            // ! DATA NOT FOUND
             price: {
                 type: 'string',
             },
+            // ! DATA NOT FOUND
             type: {
                 enum: ['MINT', 'LIST', 'TRANSFER', 'PURCHASE', 'DELIST', 'SELL'],
             },
+            // ! Need to revise => Suggestion => use blockhash or transaction
             signature: {
                 type: 'string',
             },
+            // ! DATA NOT FOUND
             royalty: {
                 type: nft_collection_royaltySchema,
             },
+            // ! DATA NOT FOUND
             currency: {
                 type: 'string',
             },
+
             timestamp: {
                 type: 'string',
             },

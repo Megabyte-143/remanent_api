@@ -4,6 +4,7 @@ import express, { urlencoded, json } from "express";
 // * API Models
 import nft_assetSchema from './models/nft_asset/nft_asset.js';
 import nft_collectionSchema from './models/nft_collection/nft_collection.js';
+import nft_transactionSchema from "./models/nft_transaction/nft_transaction.js";
 
 // * Initalize the app
 const app = express();
@@ -71,29 +72,32 @@ app.get("/v1/web3/nfts/:chain_id/:ownerAdd", async (req, res) => {
         .catch(err => console.error('error:' + err));
 });
 
-app.get('/v1/web3/nfts/transactions/:chain_id', async (req, res) => {
+app.get('/v1/web3/nfts/transactions/:chain_id/:wallet_address', async (req, res) => {
+
     const chain = req.params.chain_id == 137 ? 'polygon' : 'ethereum';
+    const url = `${baseUrl}transfers/wallets?chains=${chain}&wallet_addresses=${req.params.wallet_address}`;
 
-    let url = 'https://api.nftport.xyz/v0/transactions/nfts/contract_address';
+    let nft_transactions = new nft_transactionSchema();
+    let responseData = [];
 
-let options = {
-  method: 'GET',
-  qs: {chain: 'ethereum'},
-  headers: {
-    'Content-Type': 'application/json',
-    Authorization: '364f1aa2-aafa-4fca-8f92-f2a775aead89'
-  }
-};
-
-fetch(url, options)
-  .then(res => res.json())
-  .then(json => console.log(json))
-  .catch(err => console.error('error:' + err));
-
-
-
-
-
+    fetch(url, options)
+        .then(data => data.json())
+        .then(data => {
+            data.transfers.forEach(transfer => {
+                nft_transactions.data.properties = {
+                    token_id: transfer.token_id,
+                    contract: {
+                        address: transfer.contract_address,
+                    },
+                    sender: transfer.from_address,
+                    receivers: transfer.to_address,
+                    timestamp: transfer.timestamp,
+                };
+                responseData.push(nft_transactions.data.properties);
+            });
+            res.send(responseData);
+        })
+        .catch(err => console.error('error:' + err));
 });
 
 // async function getNftsFromCollection(collectionId) {
