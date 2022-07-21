@@ -172,3 +172,6 @@ app.get('/v1/web3/nft_collections/:chain_id/:contract_address', async (req, res)
 app.listen(port, () => {
     console.log("Server is Up and Running:", port);
 });
+
+
+module.exports = app;
