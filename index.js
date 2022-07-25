@@ -1,5 +1,6 @@
 import fetch from "node-fetch";
 import express, { urlencoded, json } from "express";
+import cors from "cors";
 
 // * API Models
 import nft_assetSchema from './models/nft_asset/nft_asset.js';
@@ -12,8 +13,8 @@ app.use(urlencoded({ extended: false })); // to ignore the extra server data
 app.use(json()); // to accept the server data
 
 // * CORS Added to allow cross-origin requests
-const cor = require("cors");
-app.use(cor({
+// const cor = cors();
+app.use(cors({
     origin: "*",
 }));
 
