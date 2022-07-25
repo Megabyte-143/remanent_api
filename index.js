@@ -11,8 +11,11 @@ const app = express();
 app.use(urlencoded({ extended: false })); // to ignore the extra server data
 app.use(json()); // to accept the server data
 
-// * Deployment Ports
-const port = 8080;
+// * CORS Added to allow cross-origin requests
+const cor = require("cors");
+app.use(cor({
+    origin: "*",
+}));
 
 const baseUrl = 'https://api.simplehash.com/api/v0/nfts/';
 const options = {
