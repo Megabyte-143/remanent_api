@@ -17,7 +17,7 @@ const port = 8080;
 const baseUrl = 'https://api.simplehash.com/api/v0/nfts/';
 const options = {
     method: 'GET',
-    headers: { Accept: 'application/json', 'X-API-KEY': 'sh_sk1_TM002NhWXE58jjev' }
+    headers: { Accept: 'application/json', 'X-API-KEY': process.env.API_KEY }
 };
 
 app.get("/v1/web3/nfts/:chain_id/:ownerAdd", async (req, res) => {
@@ -31,7 +31,9 @@ app.get("/v1/web3/nfts/:chain_id/:ownerAdd", async (req, res) => {
     fetch(url, options)
         .then(resData => resData.json())
         .then(data => {
-            data.nfts.forEach(nft => {
+            console.log(data);
+            const d = data || [];
+            d?.nfts.forEach(nft => {
                 nft_assets.data.properties = {
                     token_id: nft.token_id,
                     chain: chain,
