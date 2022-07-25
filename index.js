@@ -169,9 +169,9 @@ app.get('/v1/web3/nft_collections/:chain_id/:contract_address', async (req, res)
 });
 
 // * Start the server
-app.listen(port, () => {
-    console.log("Server is Up and Running:", port);
-});
+app.listen(process.env.PORT || 3000, function(){
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+  });
 
 
 export default app;
